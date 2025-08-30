@@ -18,6 +18,14 @@ export default {
 			}
 		},
 		extend: {
+			backgroundImage: {
+				'gradient-primary': 'linear-gradient(135deg, hsl(217 91% 60%), hsl(180 100% 50%))',
+				'gradient-hero': 'linear-gradient(135deg, hsl(217 91% 60% / 0.1), hsl(180 100% 50% / 0.05))'
+			},
+			boxShadow: {
+				'elegant': '0 10px 30px -10px hsl(217 91% 60% / 0.3)',
+				'soft': '0 4px 15px -5px hsl(217 91% 60% / 0.2)'
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -26,7 +34,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
