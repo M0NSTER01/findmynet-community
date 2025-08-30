@@ -1,9 +1,13 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Wifi, Shield, MapPin } from "lucide-react";
+import { Wifi, Shield, MapPin, LogOut } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { LoginDialog } from "@/components/LoginDialog";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Layout = () => {
   const location = useLocation();
+  const { user, logout, isAuthenticated } = useAuth();
 
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -57,6 +61,29 @@ const Layout = () => {
                   Report Found
                 </Button>
               </Link>
+            </div>
+
+            {/* Right side controls */}
+            <div className="flex items-center space-x-2">
+              <ThemeToggle />
+              
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-muted-foreground hidden sm:inline">
+                    Welcome, {user?.username}
+                  </span>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={logout}
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <LoginDialog />
+              )}
             </div>
 
             {/* Mobile menu button */}
