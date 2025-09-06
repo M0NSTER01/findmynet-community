@@ -48,6 +48,16 @@ const SAMPLE_USER: User = {
         address: 'Mumbai, Maharashtra, India'
       },
       lastSeen: '1 hour ago'
+    },
+    {
+      id: 'SIH_TEAM_SAPPHIRE001',
+      name: 'Lost MacBook Pro',
+      location: {
+        lat: 19.0176,
+        lng: 72.8562,
+        address: 'Bandra, Mumbai, Maharashtra, India'
+      },
+      lastSeen: '2 hours ago'
     }
   ]
 };
