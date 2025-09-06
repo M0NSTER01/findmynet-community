@@ -1,13 +1,15 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Wifi, Shield, MapPin, LogOut } from "lucide-react";
+import { Wifi, Shield, MapPin, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoginDialog } from "@/components/LoginDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useState } from "react";
 
 const Layout = () => {
   const location = useLocation();
   const { user, logout, isAuthenticated } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -87,12 +89,63 @@ const Layout = () => {
             </div>
 
             {/* Mobile menu button */}
-            <Button variant="ghost" size="sm" className="md:hidden">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="md:hidden"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </Button>
           </div>
+
+          {/* Mobile menu panel */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden mt-4 pt-4 border-t border-border">
+              <div className="flex flex-col space-y-2">
+                <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button 
+                    variant={isActive("/") ? "default" : "ghost"}
+                    size="sm"
+                    className="w-full justify-start"
+                  >
+                    Home
+                  </Button>
+                </Link>
+                <Link to="/report-lost" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button 
+                    variant={isActive("/report-lost") ? "default" : "ghost"}
+                    size="sm"
+                    className="w-full justify-start"
+                  >
+                    Report Lost
+                  </Button>
+                </Link>
+                <Link to="/find-my" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button 
+                    variant={isActive("/find-my") ? "default" : "ghost"}
+                    size="sm"
+                    className="w-full justify-start"
+                  >
+                    Find My Device
+                  </Button>
+                </Link>
+                <Link to="/report-found" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button 
+                    variant={isActive("/report-found") ? "default" : "ghost"}
+                    size="sm"
+                    className="w-full justify-start"
+                  >
+                    Report Found
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
