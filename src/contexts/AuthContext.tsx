@@ -62,13 +62,42 @@ const SAMPLE_USER: User = {
   ]
 };
 
+const USER1: User = {
+  username: 'user1',
+  devices: [
+    {
+      id: 'DEVICE_USER1_001',
+      name: 'iPhone 14 Pro',
+      location: {
+        lat: 19.0760,
+        lng: 72.8777,
+        address: 'Mumbai, Maharashtra, India'
+      },
+      lastSeen: '10 minutes ago'
+    }
+  ]
+};
+
+const USER2: User = {
+  username: 'user2',
+  devices: []
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const login = (username: string, password: string): boolean => {
-    // Static credentials: username: "sample", password: "sample"
+    // Static credentials
     if (username === 'sample' && password === 'sample') {
       setUser(SAMPLE_USER);
+      return true;
+    }
+    if (username === 'user1' && password === 'user1') {
+      setUser(USER1);
+      return true;
+    }
+    if (username === 'user2' && password === 'user2') {
+      setUser(USER2);
       return true;
     }
     return false;

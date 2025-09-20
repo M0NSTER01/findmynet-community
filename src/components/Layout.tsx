@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Wifi, Shield, MapPin, LogOut, Menu, X } from "lucide-react";
+import { Wifi, Shield, MapPin, LogOut, Menu, X, Settings } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoginDialog } from "@/components/LoginDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -61,6 +61,14 @@ const Layout = () => {
                   size="sm"
                 >
                   Report Found
+                </Button>
+              </Link>
+              <Link to="/device-management">
+                <Button 
+                  variant={isActive("/device-management") ? "default" : "ghost"}
+                  size="sm"
+                >
+                  Device Management
                 </Button>
               </Link>
             </div>
@@ -141,6 +149,15 @@ const Layout = () => {
                     className="w-full justify-start"
                   >
                     Report Found
+                  </Button>
+                </Link>
+                <Link to="/device-management" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button 
+                    variant={isActive("/device-management") ? "default" : "ghost"}
+                    size="sm"
+                    className="w-full justify-start"
+                  >
+                    Device Management
                   </Button>
                 </Link>
               </div>
