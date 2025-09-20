@@ -11,6 +11,7 @@ import ReportLost from "./pages/ReportLost";
 import FindMyDevice from "./pages/FindMyDevice";
 import ReportFound from "./pages/ReportFound";
 import DeviceManagement from "./pages/DeviceManagement";
+import UserRegistration from "./pages/UserRegistration";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
                 <Route path="find-my" element={<FindMyDevice />} />
                 <Route path="report-found" element={<ReportFound />} />
                 <Route path="device-management" element={<DeviceManagement />} />
+                <Route path="user-registration" element={<UserRegistration />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

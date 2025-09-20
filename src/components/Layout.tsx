@@ -71,6 +71,14 @@ const Layout = () => {
                   Device Management
                 </Button>
               </Link>
+              <Link to="/user-registration">
+                <Button 
+                  variant={isActive("/user-registration") ? "default" : "ghost"}
+                  size="sm"
+                >
+                  Profile
+                </Button>
+              </Link>
             </div>
 
             {/* Right side controls */}
@@ -158,6 +166,15 @@ const Layout = () => {
                     className="w-full justify-start"
                   >
                     Device Management
+                  </Button>
+                </Link>
+                <Link to="/user-registration" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button 
+                    variant={isActive("/user-registration") ? "default" : "ghost"}
+                    size="sm"
+                    className="w-full justify-start"
+                  >
+                    Profile
                   </Button>
                 </Link>
               </div>

@@ -14,6 +14,12 @@ interface Device {
 interface User {
   username: string;
   devices: Device[];
+  profile?: {
+    name: string;
+    contact: string;
+    address: string;
+    aadharNumber: string;
+  };
 }
 
 interface AuthContextType {

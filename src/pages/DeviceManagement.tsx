@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import { Smartphone, UserCheck, UserX, Shield, Plus } from 'lucide-react';
+import { Smartphone, UserCheck, UserX, Shield, Plus, Monitor, User } from 'lucide-react';
 
 interface TransferRequest {
   id: string;
@@ -24,6 +24,8 @@ const DeviceManagement = () => {
   const { user, isAuthenticated } = useAuth();
   const [newDeviceId, setNewDeviceId] = useState('');
   const [newDeviceName, setNewDeviceName] = useState('');
+  const [newDeviceIMEI, setNewDeviceIMEI] = useState('');
+  const [newDeviceSerial, setNewDeviceSerial] = useState('');
   const [requestDeviceId, setRequestDeviceId] = useState('');
   const [transferRequests, setTransferRequests] = useState<TransferRequest[]>([]);
   const [showOtpDialog, setShowOtpDialog] = useState(false);
@@ -44,7 +46,7 @@ const DeviceManagement = () => {
   };
 
   const handleRegisterDevice = () => {
-    if (!newDeviceId.trim() || !newDeviceName.trim()) {
+    if (!newDeviceId.trim() || !newDeviceName.trim() || !newDeviceIMEI.trim() || !newDeviceSerial.trim()) {
       toast.error('Please fill in all fields');
       return;
     }
@@ -53,6 +55,8 @@ const DeviceManagement = () => {
     toast.success(`Device "${newDeviceName}" registered successfully with ID: ${newDeviceId}`);
     setNewDeviceId('');
     setNewDeviceName('');
+    setNewDeviceIMEI('');
+    setNewDeviceSerial('');
   };
 
   const handleRequestOwnership = () => {
@@ -146,13 +150,64 @@ const DeviceManagement = () => {
         </p>
       </div>
 
-      <Tabs defaultValue="register" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
+      <Tabs defaultValue="my-devices" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="my-devices">My Devices</TabsTrigger>
           <TabsTrigger value="register">Register Device</TabsTrigger>
           <TabsTrigger value="request">Request Ownership</TabsTrigger>
-          <TabsTrigger value="approvals">Pending Approvals</TabsTrigger>
+          <TabsTrigger value="approvals" className="relative">
+            Pending Approvals
+            {pendingApprovals.length > 0 && (
+              <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 text-xs bg-destructive text-destructive-foreground flex items-center justify-center">
+                {pendingApprovals.length}
+              </Badge>
+            )}
+          </TabsTrigger>
           <TabsTrigger value="my-requests">My Requests</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="my-devices">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Monitor className="h-5 w-5" />
+                My Devices
+              </CardTitle>
+              <CardDescription>
+                Devices registered under your account
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {user?.devices && user.devices.length > 0 ? (
+                <div className="space-y-4">
+                  {user.devices.map((device) => (
+                    <div key={device.id} className="border rounded-lg p-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-semibold">{device.name}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            ID: {device.id}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Location: {device.location.address}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Last seen: {device.lastSeen}
+                          </p>
+                        </div>
+                        <Badge variant="default">Active</Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground text-center py-4">
+                  No devices registered yet
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         <TabsContent value="register">
           <Card>
@@ -182,6 +237,24 @@ const DeviceManagement = () => {
                   placeholder="Enter device name"
                   value={newDeviceName}
                   onChange={(e) => setNewDeviceName(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="deviceIMEI">IMEI Number</Label>
+                <Input
+                  id="deviceIMEI"
+                  placeholder="Enter IMEI number"
+                  value={newDeviceIMEI}
+                  onChange={(e) => setNewDeviceIMEI(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="deviceSerial">Serial Number</Label>
+                <Input
+                  id="deviceSerial"
+                  placeholder="Enter serial number"
+                  value={newDeviceSerial}
+                  onChange={(e) => setNewDeviceSerial(e.target.value)}
                 />
               </div>
               <Button onClick={handleRegisterDevice} className="w-full">
